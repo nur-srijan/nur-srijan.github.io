@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nur Srijan | AI & Systems Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0A0A;
+            color: #E2E8F0;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-bg {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .tag {
+             background-color: rgba(56, 189, 248, 0.1);
+             color: #38bdf8;
+             border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+        .ai-sandbox-output {
+            white-space: pre-wrap;
+            background: #0f172a;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            border: 1px solid #1e293b;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-lg border-b border-slate-800">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="#" class="text-xl tracking-tighter text-white" style="font-family: 'Pacifico', cursive;">Nur Srijan.</a>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#mission" class="text-slate-300 hover:text-white transition-colors">Mission</a>
+                    <a href="#projects" class="text-slate-300 hover:text-white transition-colors">Projects</a>
+                    <a href="#ai-sandbox" class="text-slate-300 hover:text-white transition-colors">AI Sandbox</a>
+                    <a href="#toolbox" class="text-slate-300 hover:text-white transition-colors">Toolbox</a>
+                    <a href="#contact" class="text-slate-300 hover:text-white transition-colors">Contact</a>
+                </nav>
+                 <button id="menu-btn" class="md:hidden block text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#mission" class="block py-2 px-6 text-sm text-slate-300 hover:bg-slate-800">Mission</a>
+            <a href="#projects" class="block py-2 px-6 text-sm text-slate-300 hover:bg-slate-800">Projects</a>
+             <a href="#ai-sandbox" class="block py-2 px-6 text-sm text-slate-300 hover:bg-slate-800">AI Sandbox</a>
+            <a href="#toolbox" class="block py-2 px-6 text-sm text-slate-300 hover:bg-slate-800">Toolbox</a>
+            <a href="#contact" class="block py-2 px-6 text-sm text-slate-300 hover:bg-slate-800">Contact</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 pt-24 md:pt-32">
+        
+        <!-- Hero Section -->
+        <section class="text-center py-16 md:py-24">
+            <h1 class="text-4xl md:text-6xl font-black tracking-tighter text-white">
+                <span class="gradient-text">Engineering intelligence,</span><br> not just interfaces.
+            </h1>
+            <p class="mt-6 max-w-2xl mx-auto text-lg text-slate-400">
+                🚀 Future Engineer | 🧠 AI + Systems Thinker | 💻 VS Code Extension Dev
+            </p>
+             <div class="mt-8 flex justify-center gap-4">
+                <a href="#projects" class="bg-sky-500 text-white font-semibold py-2 px-6 rounded-lg shadow-lg hover:bg-sky-600 transition-all transform hover:scale-105">
+                    View My Work
+                </a>
+                <a href="#contact" class="bg-slate-700 text-white font-semibold py-2 px-6 rounded-lg shadow-lg hover:bg-slate-600 transition-all transform hover:scale-105">
+                    Get In Touch
+                </a>
+            </div>
+        </section>
+
+        <!-- Mission Section -->
+        <section id="mission" class="py-16 md:py-24 border-t border-slate-800">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-sm font-bold uppercase tracking-widest text-sky-400">My Mission</h2>
+                <p class="mt-4 text-3xl md:text-4xl font-bold tracking-tight text-white">
+                    Crafting tools and systems that think — not just compute.
+                </p>
+                <div class="mt-8 space-y-6 text-lg text-slate-400 max-w-3xl mx-auto">
+                    <p>
+                        Because why stop at “smart” when we can aim for <span class="text-white font-semibold">strategic</span>?
+                    </p>
+                    <p>
+                        Imagine agentic AIs making real-world decisions with the cold precision of a chess engine. I’m not here to build Jarvis. I’m here to build <span class="text-white font-semibold">Kasparov-level reasoning for real life.</span>
+                    </p>
+                </div>
+                 <blockquote class="mt-12 max-w-xl mx-auto italic border-l-4 border-sky-500 pl-6 text-left">
+                    <p class="text-xl text-slate-300">"I’m not teaching AIs to guess better — I’m teaching them to reason sharper."</p>
+                    <cite class="mt-2 block text-slate-500 not-italic">— Nur, when nobody asked, but they needed to hear it.</cite>
+                </blockquote>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-16 md:py-24 border-t border-slate-800">
+            <div class="text-center">
+                <h2 class="text-sm font-bold uppercase tracking-widest text-sky-400">My Work</h2>
+                <p class="mt-4 text-3xl md:text-4xl font-bold tracking-tight text-white">Things I’ve Brought Into the World</p>
+            </div>
+            
+            <div class="mt-16 grid gap-8 md:grid-cols-1 lg:grid-cols-2">
+                
+                <!-- Project 1 -->
+                <div class="card-bg rounded-xl p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                    <h3 class="text-2xl font-bold text-white">🧩 Markdown Rich Preview & Export</h3>
+                    <p class="mt-4 text-slate-400">
+                        Turn Markdown into GitHub-style elegance and export clean PDFs/HTMLs — no Pandoc hacks, just vibes.
+                    </p>
+                    <div class="mt-6">
+                        <span class="inline-block text-xs font-semibold tag rounded-full px-3 py-1">Coming Soon</span>
+                        <p class="inline-block ml-2 text-slate-400">AI-generated READMEs and multi-editor support.</p>
+                    </div>
+                    <a href="https://github.com/yourusername/markdown-rich-preview-export" target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex items-center text-sky-400 font-semibold hover:text-sky-300">
+                        View on GitHub
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="card-bg rounded-xl p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                     <h3 class="text-2xl font-bold text-white">🤖 Auto CI</h3>
+                     <p class="mt-4 text-slate-400">
+                        A system that captures GitHub Actions logs, sends them to a custom backend, and empowers AI agents to analyze and fix CI/CD pipelines autonomously. Because CI should mean <span class="text-white">Continuously Intelligent.</span>
+                    </p>
+                    <div class="mt-6">
+                        <span class="inline-block text-xs font-semibold tag rounded-full px-3 py-1">In Progress</span>
+                    </div>
+                     <a href="#" class="mt-6 inline-flex items-center text-slate-500 font-semibold cursor-not-allowed">
+                        Coming Soon
+                    </a>
+                </div>
+            </div>
+            
+             <!-- Currently Brewing Section -->
+            <div class="mt-24 text-center">
+                 <h3 class="text-2xl font-bold tracking-tight text-white">🧪 Currently Brewing...</h3>
+                 <div class="mt-8 max-w-4xl mx-auto flex flex-wrap justify-center gap-4">
+                    <span class="tag font-medium rounded-lg px-4 py-2">Agentic AI with deductive logic</span>
+                    <span class="tag font-medium rounded-lg px-4 py-2">AI-powered SaaS tools</span>
+                    <span class="tag font-medium rounded-lg px-4 py-2">Frictionless DevOps tools</span>
+                    <span class="tag font-medium rounded-lg px-4 py-2">Minimalist, AI-enhanced Linux OS</span>
+                 </div>
+            </div>
+        </section>
+
+        <!-- AI Sandbox Section -->
+        <section id="ai-sandbox" class="py-16 md:py-24 border-t border-slate-800">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-sm font-bold uppercase tracking-widest text-sky-400">AI Sandbox</h2>
+                <p class="mt-4 text-3xl md:text-4xl font-bold tracking-tight text-white">
+                    Have an Idea? Let's Brainstorm.
+                </p>
+                <p class="mt-6 max-w-2xl mx-auto text-lg text-slate-400">
+                    Enter a project idea or a feature below, and my AI assistant will help you flesh it out with a suggested tech stack, key features, and a development roadmap.
+                </p>
+
+                <div class="mt-8 max-w-2xl mx-auto">
+                    <div class="card-bg rounded-xl p-6">
+                        <textarea id="idea-input" class="w-full h-24 bg-slate-800 border border-slate-700 rounded-lg p-4 text-white placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:outline-none" placeholder="e.g., 'A web app that summarizes YouTube videos'"></textarea>
+                        <button id="generate-idea-btn" class="mt-4 w-full bg-sky-500 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-sky-600 transition-all transform hover:scale-105 flex items-center justify-center">
+                           <span class="sparkle-wrapper">✨</span> Expand Idea 
+                        </button>
+                    </div>
+
+                    <div id="idea-output-container" class="mt-8 text-left hidden">
+                         <h3 class="text-2xl font-bold text-white mb-4">Project Blueprint:</h3>
+                         <div id="idea-output" class="ai-sandbox-output text-slate-300"></div>
+                    </div>
+                     <div id="loading-indicator" class="mt-8 hidden">
+                        <div class="flex justify-center items-center">
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span class="text-slate-400">Generating...</span>
+                        </div>
+                    </div>
+                    <div id="error-message" class="mt-8 text-red-400 hidden">
+                        Oops! Something went wrong. Please try again.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Toolbox Section -->
+        <section id="toolbox" class="py-16 md:py-24 border-t border-slate-800">
+             <div class="text-center">
+                <h2 class="text-sm font-bold uppercase tracking-widest text-sky-400">My Arsenal</h2>
+                <p class="mt-4 text-3xl md:text-4xl font-bold tracking-tight text-white">My Toolbox</p>
+            </div>
+
+            <div class="mt-16 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card-bg rounded-lg p-6">
+                    <h4 class="font-bold text-white text-lg">Languages</h4>
+                    <p class="mt-2 text-slate-400">TypeScript, Python, Shell Script</p>
+                </div>
+                 <div class="card-bg rounded-lg p-6">
+                    <h4 class="font-bold text-white text-lg">Frameworks & Runtimes</h4>
+                    <p class="mt-2 text-slate-400">Node.js, React, Next.js, Vue</p>
+                </div>
+                 <div class="card-bg rounded-lg p-6">
+                    <h4 class="font-bold text-white text-lg">Specialties</h4>
+                    <p class="mt-2 text-slate-400">GitHub Automation, AI Workflows, VS Code Extensions</p>
+                </div>
+            </div>
+             <div class="mt-12 max-w-4xl mx-auto card-bg rounded-lg p-6 text-center">
+                <h4 class="font-bold text-white text-lg">Philosophy</h4>
+                <p class="mt-2 text-slate-300">Build for humans. Code for performance. Think like a machine.</p>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- Contact & Footer -->
+    <footer id="contact" class="border-t border-slate-800 mt-16">
+        <div class="container mx-auto px-6 py-12 text-center">
+             <h2 class="text-3xl font-bold tracking-tight text-white">Find Me in the Matrix</h2>
+             <p class="mt-4 max-w-md mx-auto text-slate-400">
+                Have an idea or just want to connect? Let's talk.
+             </p>
+             <div class="mt-8 flex justify-center items-center space-x-6">
+                <a href="https://yourportfolio.dev" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-sky-400 transition-colors">
+                    <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.916 17.916 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
+                    </svg>
+                </a>
+                <a href="https://twitter.com/yourhandle" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-sky-400 transition-colors">
+                   <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                   </svg>
+                </a>
+                <a href="mailto:your.email@example.com" class="text-slate-400 hover:text-sky-400 transition-colors">
+                   <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                       <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25-2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                   </svg>
+                </a>
+             </div>
+
+             <p class="mt-12 text-sm text-slate-500">
+                🧠 Engineering intelligence, not just interfaces.
+             </p>
+             <p class="mt-2 text-sm text-slate-600">
+                 &copy; <span id="year"></span> Nur Srijan. All Rights Reserved.
+             </p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // AI Sandbox Logic
+        const generateBtn = document.getElementById('generate-idea-btn');
+        const ideaInput = document.getElementById('idea-input');
+        const ideaOutputContainer = document.getElementById('idea-output-container');
+        const ideaOutput = document.getElementById('idea-output');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const errorMessage = document.getElementById('error-message');
+
+        generateBtn.addEventListener('click', async () => {
+            const userInput = ideaInput.value.trim();
+            if (!userInput) {
+                alert('Please enter an idea.');
+                return;
+            }
+
+            loadingIndicator.classList.remove('hidden');
+            errorMessage.classList.add('hidden');
+            ideaOutputContainer.classList.add('hidden');
+            generateBtn.disabled = true;
+
+            try {
+                const prompt = `
+                    As an expert systems architect and AI engineer, expand on the following project idea: "${userInput}".
+
+                    Provide a "Project Blueprint" with the following sections:
+                    
+                    1.  **Concept:** A one-paragraph summary of the refined idea.
+                    2.  **Core Features:** A bulleted list of 3-5 key features.
+                    3.  **Recommended Tech Stack:** A list of technologies for frontend, backend, database, and potential AI/ML libraries.
+                    4.  **Development Roadmap (Milestones):**
+                        - **Milestone 1: MVP (Minimum Viable Product):** What to build first.
+                        - **Milestone 2: Core Feature Expansion:** Next logical steps.
+                        - **Milestone 3: Advanced Features & Scaling:** Long-term vision.
+
+                    Format the output cleanly.
+                `;
+                
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                const apiKey = "" // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    ideaOutput.textContent = text;
+                    ideaOutputContainer.classList.remove('hidden');
+                } else {
+                   throw new Error("Invalid response structure from API.");
+                }
+
+            } catch (error) {
+                console.error("Error generating idea:", error);
+                errorMessage.classList.remove('hidden');
+            } finally {
+                loadingIndicator.classList.add('hidden');
+                generateBtn.disabled = false;
+            }
+        });
+
+    </script>
+</body>
+</html>
