@@ -210,6 +210,17 @@
 
                 <div class="mt-8 max-w-2xl mx-auto">
                     <div class="card-bg rounded-xl p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-4">
+                            <div class="md:col-span-2">
+                                <label for="idea-api-key" class="block text-sm font-semibold text-slate-200">Gemini API key</label>
+                                <input id="idea-api-key" type="password" autocomplete="off" spellcheck="false" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:outline-none" placeholder="AIza..." />
+                                <p class="mt-2 text-xs text-slate-500">Stored in your browser (localStorage) on this device.</p>
+                            </div>
+                            <div class="flex gap-2 md:justify-end">
+                                <button id="idea-save-key-btn" class="w-full md:w-auto bg-slate-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-slate-600 transition-all">Save</button>
+                                <button id="idea-clear-key-btn" class="w-full md:w-auto bg-slate-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-slate-600 transition-all">Clear</button>
+                            </div>
+                        </div>
                         <textarea id="idea-input" class="w-full h-24 bg-slate-800 border border-slate-700 rounded-lg p-4 text-white placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:outline-none" placeholder="e.g., 'A web app that summarizes YouTube videos'"></textarea>
                         <button id="generate-idea-btn" class="mt-4 w-full bg-sky-500 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-sky-600 transition-all transform hover:scale-105 flex items-center justify-center">
                            <span class="sparkle-wrapper">✨</span> Expand Idea 
@@ -378,11 +389,42 @@
         const ideaOutput = document.getElementById('idea-output');
         const loadingIndicator = document.getElementById('loading-indicator');
         const errorMessage = document.getElementById('error-message');
+        const ideaApiKeyInput = document.getElementById('idea-api-key');
+        const ideaSaveKeyBtn = document.getElementById('idea-save-key-btn');
+        const ideaClearKeyBtn = document.getElementById('idea-clear-key-btn');
+
+        const IDEA_KEY_STORAGE = 'gemini_api_key';
+        if (ideaApiKeyInput) {
+            const savedKey = (localStorage.getItem(IDEA_KEY_STORAGE) || '').trim();
+            if (savedKey) ideaApiKeyInput.value = savedKey;
+        }
+
+        ideaSaveKeyBtn?.addEventListener('click', () => {
+            const key = (ideaApiKeyInput?.value || '').trim();
+            if (!key) {
+                alert('Please enter your Gemini API key.');
+                return;
+            }
+            localStorage.setItem(IDEA_KEY_STORAGE, key);
+            alert('API key saved on this device.');
+        });
+
+        ideaClearKeyBtn?.addEventListener('click', () => {
+            localStorage.removeItem(IDEA_KEY_STORAGE);
+            if (ideaApiKeyInput) ideaApiKeyInput.value = '';
+            alert('API key cleared.');
+        });
 
         generateBtn.addEventListener('click', async () => {
             const userInput = ideaInput.value.trim();
             if (!userInput) {
                 alert('Please enter an idea.');
+                return;
+            }
+
+            const apiKey = (ideaApiKeyInput?.value || localStorage.getItem(IDEA_KEY_STORAGE) || '').trim();
+            if (!apiKey) {
+                alert('Please enter your Gemini API key.');
                 return;
             }
 
@@ -411,8 +453,8 @@
                 let chatHistory = [];
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
                 const payload = { contents: chatHistory };
-                const apiKey = "" // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                const apiKeyFromInput = apiKey // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(apiKeyFromInput)}`;
                 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
