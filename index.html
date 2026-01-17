@@ -236,12 +236,67 @@
             </div>
         </section>
 
-        <section id="ai-sandbox" class="py-16 md:py-24 border-t border-slate-800">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-sm font-bold uppercase tracking-widest text-sky-400">CI/CD Converter</h2>
+        <section id="ci-cd-converter" class="py-16 md:py-24 border-t border-slate-800">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center">
+                    <h2 class="text-sm font-bold uppercase tracking-widest text-sky-400">CI/CD Converter</h2>
+                    <p class="mt-4 text-3xl md:text-4xl font-bold tracking-tight text-white">Convert pipeline YAML between platforms</p>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-400">Convert workflows between GitHub Actions, GitLab CI, and CircleCI using Gemini.</p>
+                </div>
+
+                <div class="mt-10 card-bg rounded-xl p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                        <div class="md:col-span-2">
+                            <label for="cicd-api-key" class="block text-sm font-semibold text-slate-200">Gemini API key</label>
+                            <input id="cicd-api-key" type="password" autocomplete="off" spellcheck="false" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:outline-none" placeholder="AIza..." />
+                            <p class="mt-2 text-xs text-slate-500">Stored in your browser (localStorage) on this device.</p>
+                        </div>
+                        <div class="flex gap-2 md:justify-end">
+                            <button id="cicd-save-key-btn" class="w-full md:w-auto bg-sky-500 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-sky-600 transition-all">Save</button>
+                            <button id="cicd-clear-key-btn" class="w-full md:w-auto bg-slate-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-slate-600 transition-all">Clear</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="cicd-alert" class="mt-6 hidden"></div>
+
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="card-bg rounded-xl p-6">
+                        <div class="flex items-center justify-between gap-4">
+                            <h3 class="text-xl font-bold text-white">Source</h3>
+                            <select id="cicd-source-type" class="bg-slate-800 border border-slate-700 rounded-lg p-2 text-white focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                                <option value="github">GitHub Actions</option>
+                                <option value="gitlab">GitLab CI</option>
+                                <option value="circleci">CircleCI</option>
+                            </select>
+                        </div>
+                        <textarea id="cicd-input" class="mt-4 w-full h-96 bg-slate-800 border border-slate-700 rounded-lg p-4 text-white placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:outline-none font-mono text-sm" placeholder="Paste your workflow YAML here..."></textarea>
+                    </div>
+
+                    <div class="card-bg rounded-xl p-6">
+                        <div class="flex items-center justify-between gap-4">
+                            <h3 class="text-xl font-bold text-white">Target</h3>
+                            <select id="cicd-target-type" class="bg-slate-800 border border-slate-700 rounded-lg p-2 text-white focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                                <option value="gitlab">GitLab CI</option>
+                                <option value="github">GitHub Actions</option>
+                                <option value="circleci">CircleCI</option>
+                            </select>
+                        </div>
+                        <textarea id="cicd-output" readonly class="mt-4 w-full h-96 bg-slate-900 border border-slate-700 rounded-lg p-4 text-white placeholder-slate-600 focus:outline-none font-mono text-sm" placeholder="Converted workflow will appear here..."></textarea>
+                        <div class="mt-4 flex gap-2">
+                            <button id="cicd-copy-btn" class="w-full bg-slate-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-slate-600 transition-all">Copy</button>
+                            <button id="cicd-download-btn" class="w-full bg-slate-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-slate-600 transition-all">Download</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex flex-col md:flex-row justify-center gap-3">
+                    <button id="cicd-convert-btn" class="bg-sky-500 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-sky-600 transition-all">Convert</button>
+                    <button id="cicd-swap-btn" class="bg-slate-700 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-slate-600 transition-all">Swap</button>
+                    <button id="cicd-load-example-btn" class="bg-slate-700 text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-slate-600 transition-all">Load example</button>
+                </div>
             </div>
-            <iframe src="https://claude.site/public/artifacts/4855b947-475c-43dd-b45e-8e23e5f99593/embed" title="Claude Artifact" width="100%" height="600" frameborder="0" allow="clipboard-write" allowfullscreen></iframe>
-        </section>     
+        </section>
         <!-- Toolbox Section -->
         <section id="toolbox" class="py-16 md:py-24 border-t border-slate-800">
              <div class="text-center">
@@ -387,6 +442,189 @@
             } finally {
                 loadingIndicator.classList.add('hidden');
                 generateBtn.disabled = false;
+            }
+        });
+
+        const cicdApiKeyInput = document.getElementById('cicd-api-key');
+        const cicdSaveKeyBtn = document.getElementById('cicd-save-key-btn');
+        const cicdClearKeyBtn = document.getElementById('cicd-clear-key-btn');
+        const cicdSourceType = document.getElementById('cicd-source-type');
+        const cicdTargetType = document.getElementById('cicd-target-type');
+        const cicdInput = document.getElementById('cicd-input');
+        const cicdOutput = document.getElementById('cicd-output');
+        const cicdConvertBtn = document.getElementById('cicd-convert-btn');
+        const cicdSwapBtn = document.getElementById('cicd-swap-btn');
+        const cicdLoadExampleBtn = document.getElementById('cicd-load-example-btn');
+        const cicdCopyBtn = document.getElementById('cicd-copy-btn');
+        const cicdDownloadBtn = document.getElementById('cicd-download-btn');
+        const cicdAlert = document.getElementById('cicd-alert');
+
+        const CICD_KEY_STORAGE = 'gemini_api_key';
+        const cicdPlatformNames = {
+            github: 'GitHub Actions',
+            gitlab: 'GitLab CI',
+            circleci: 'CircleCI'
+        };
+
+        const cicdSetAlert = (type, message) => {
+            if (!cicdAlert) return;
+            if (!message) {
+                cicdAlert.classList.add('hidden');
+                cicdAlert.textContent = '';
+                cicdAlert.className = 'mt-6 hidden';
+                return;
+            }
+
+            cicdAlert.classList.remove('hidden');
+            cicdAlert.textContent = message;
+            if (type === 'success') {
+                cicdAlert.className = 'mt-6 p-4 bg-green-500/20 border border-green-500 rounded-lg text-green-200';
+            } else {
+                cicdAlert.className = 'mt-6 p-4 bg-red-500/20 border border-red-500 rounded-lg text-red-200';
+            }
+        };
+
+        const cicdGetApiKey = () => {
+            const fromInput = cicdApiKeyInput?.value?.trim();
+            if (fromInput) return fromInput;
+            return (localStorage.getItem(CICD_KEY_STORAGE) || '').trim();
+        };
+
+        if (cicdApiKeyInput) {
+            const savedKey = (localStorage.getItem(CICD_KEY_STORAGE) || '').trim();
+            if (savedKey) cicdApiKeyInput.value = savedKey;
+        }
+
+        cicdSaveKeyBtn?.addEventListener('click', () => {
+            const key = (cicdApiKeyInput?.value || '').trim();
+            if (!key) {
+                cicdSetAlert('error', 'Please enter your Gemini API key.');
+                return;
+            }
+            localStorage.setItem(CICD_KEY_STORAGE, key);
+            cicdSetAlert('success', 'API key saved on this device.');
+        });
+
+        cicdClearKeyBtn?.addEventListener('click', () => {
+            localStorage.removeItem(CICD_KEY_STORAGE);
+            if (cicdApiKeyInput) cicdApiKeyInput.value = '';
+            cicdSetAlert('success', 'API key cleared.');
+        });
+
+        const cicdExamples = {
+            github: `name: CI\n\non:\n  push:\n    branches: [ main ]\n  pull_request:\n    branches: [ main ]\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: 20\n          cache: npm\n      - run: npm ci\n      - run: npm test`,
+            gitlab: `stages:\n  - test\n\ntest:\n  stage: test\n  image: node:20\n  script:\n    - npm ci\n    - npm test\n  cache:\n    paths:\n      - node_modules/`,
+            circleci: `version: 2.1\n\njobs:\n  test:\n    docker:\n      - image: cimg/node:20.10\n    steps:\n      - checkout\n      - run: npm ci\n      - run: npm test\n\nworkflows:\n  test_and_build:\n    jobs:\n      - test`
+        };
+
+        cicdLoadExampleBtn?.addEventListener('click', () => {
+            const source = cicdSourceType?.value || 'github';
+            if (cicdInput) cicdInput.value = cicdExamples[source] || '';
+            cicdSetAlert('success', 'Example loaded.');
+        });
+
+        cicdSwapBtn?.addEventListener('click', () => {
+            if (!cicdSourceType || !cicdTargetType) return;
+            const tmp = cicdSourceType.value;
+            cicdSourceType.value = cicdTargetType.value;
+            cicdTargetType.value = tmp;
+            cicdSetAlert('success', 'Source and target swapped.');
+        });
+
+        cicdCopyBtn?.addEventListener('click', async () => {
+            const text = (cicdOutput?.value || '').trim();
+            if (!text) {
+                cicdSetAlert('error', 'Nothing to copy yet.');
+                return;
+            }
+            try {
+                await navigator.clipboard.writeText(text);
+                cicdSetAlert('success', 'Copied to clipboard.');
+            } catch (e) {
+                cicdSetAlert('error', 'Copy failed.');
+            }
+        });
+
+        cicdDownloadBtn?.addEventListener('click', () => {
+            const text = (cicdOutput?.value || '').trim();
+            if (!text) {
+                cicdSetAlert('error', 'Nothing to download yet.');
+                return;
+            }
+
+            const target = cicdTargetType?.value || 'gitlab';
+            const filename = target === 'github' ? 'main.yml' : target === 'gitlab' ? '.gitlab-ci.yml' : 'config.yml';
+            const blob = new Blob([text], { type: 'text/yaml' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        cicdConvertBtn?.addEventListener('click', async () => {
+            const apiKey = cicdGetApiKey();
+            const source = cicdSourceType?.value || 'github';
+            const target = cicdTargetType?.value || 'gitlab';
+            const inputYaml = (cicdInput?.value || '').trim();
+
+            cicdSetAlert('', '');
+            if (cicdOutput) cicdOutput.value = '';
+
+            if (!apiKey) {
+                cicdSetAlert('error', 'Please provide a Gemini API key to use the converter.');
+                return;
+            }
+            if (!inputYaml) {
+                cicdSetAlert('error', 'Please paste a workflow configuration to convert.');
+                return;
+            }
+            if (source === target) {
+                cicdSetAlert('error', 'Please select different source and target platforms.');
+                return;
+            }
+
+            const platformNames = cicdPlatformNames;
+            const prompt = `You are an expert in CI/CD pipeline configurations. Convert the following ${platformNames[source]} workflow to ${platformNames[target]} format.\n\nCRITICAL REQUIREMENTS:\n1. Preserve ALL functionality - every job, step, command, environment variable, and condition\n2. Use platform-specific best practices and idioms\n3. Maintain the same execution order and dependencies\n4. Convert triggers/events appropriately (push, pull_request, schedules, etc.)\n5. Handle platform-specific features (caching, artifacts, matrix builds, etc.)\n6. Ensure the converted workflow is production-ready and follows best practices\n7. Return ONLY the converted YAML configuration with NO additional text, explanations, or markdown code blocks\n\nSource workflow (${platformNames[source]}):\n\n${inputYaml}\n\nConvert this to ${platformNames[target]} format. Return only the raw YAML configuration.`;
+
+            const payload = {
+                contents: [
+                    { role: 'user', parts: [{ text: prompt }] }
+                ]
+            };
+
+            const originalBtnText = cicdConvertBtn.textContent;
+            cicdConvertBtn.disabled = true;
+            cicdConvertBtn.textContent = 'Converting...';
+
+            try {
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+
+                const result = await response.json();
+                const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (!text) {
+                    throw new Error('Invalid response structure from API.');
+                }
+
+                const cleaned = String(text).replace(/```yaml\n?/g, '').replace(/```\n?/g, '').trim();
+                if (cicdOutput) cicdOutput.value = cleaned;
+                cicdSetAlert('success', 'Workflow converted successfully.');
+            } catch (error) {
+                console.error('Error converting workflow:', error);
+                cicdSetAlert('error', `Error converting workflow: ${error.message}`);
+            } finally {
+                cicdConvertBtn.disabled = false;
+                cicdConvertBtn.textContent = originalBtnText;
             }
         });
 
