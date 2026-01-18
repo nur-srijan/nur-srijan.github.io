@@ -221,6 +221,11 @@
                                 <button id="idea-clear-key-btn" class="w-full md:w-auto bg-slate-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-slate-600 transition-all">Clear</button>
                             </div>
                         </div>
+                    </div>
+                    
+                    <div id="idea-alert" class="mt-6 hidden"></div>
+                    
+                    <div class="card-bg rounded-xl p-6">
                         <textarea id="idea-input" class="w-full h-24 bg-slate-800 border border-slate-700 rounded-lg p-4 text-white placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:outline-none" placeholder="e.g., 'A web app that summarizes YouTube videos'"></textarea>
                         <button id="generate-idea-btn" class="mt-4 w-full bg-sky-500 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-sky-600 transition-all transform hover:scale-105 flex items-center justify-center">
                            <span class="sparkle-wrapper">✨</span> Expand Idea 
@@ -389,11 +394,30 @@
         const ideaOutput = document.getElementById('idea-output');
         const loadingIndicator = document.getElementById('loading-indicator');
         const errorMessage = document.getElementById('error-message');
+        const ideaAlert = document.getElementById('idea-alert');
         const ideaApiKeyInput = document.getElementById('idea-api-key');
         const ideaSaveKeyBtn = document.getElementById('idea-save-key-btn');
         const ideaClearKeyBtn = document.getElementById('idea-clear-key-btn');
 
         const IDEA_KEY_STORAGE = 'gemini_api_key';
+        const ideaSetAlert = (type, message) => {
+            if (!ideaAlert) return;
+            if (!message) {
+                ideaAlert.classList.add('hidden');
+                ideaAlert.textContent = '';
+                ideaAlert.className = 'mt-6 hidden';
+                return;
+            }
+
+            ideaAlert.classList.remove('hidden');
+            ideaAlert.textContent = message;
+            if (type === 'success') {
+                ideaAlert.className = 'mt-6 p-4 bg-green-500/20 border border-green-500 rounded-lg text-green-200 text-left';
+            } else {
+                ideaAlert.className = 'mt-6 p-4 bg-red-500/20 border border-red-500 rounded-lg text-red-200 text-left';
+            }
+        };
+
         if (ideaApiKeyInput) {
             const savedKey = (localStorage.getItem(IDEA_KEY_STORAGE) || '').trim();
             if (savedKey) ideaApiKeyInput.value = savedKey;
@@ -402,31 +426,33 @@
         ideaSaveKeyBtn?.addEventListener('click', () => {
             const key = (ideaApiKeyInput?.value || '').trim();
             if (!key) {
-                alert('Please enter your Gemini API key.');
+                ideaSetAlert('error', 'Please enter your Gemini API key.');
                 return;
             }
             localStorage.setItem(IDEA_KEY_STORAGE, key);
-            alert('API key saved on this device.');
+            ideaSetAlert('success', 'API key saved on this device.');
         });
 
         ideaClearKeyBtn?.addEventListener('click', () => {
             localStorage.removeItem(IDEA_KEY_STORAGE);
             if (ideaApiKeyInput) ideaApiKeyInput.value = '';
-            alert('API key cleared.');
+            ideaSetAlert('success', 'API key cleared.');
         });
 
         generateBtn.addEventListener('click', async () => {
             const userInput = ideaInput.value.trim();
             if (!userInput) {
-                alert('Please enter an idea.');
+                ideaSetAlert('error', 'Please enter an idea.');
                 return;
             }
 
             const apiKey = (ideaApiKeyInput?.value || localStorage.getItem(IDEA_KEY_STORAGE) || '').trim();
             if (!apiKey) {
-                alert('Please enter your Gemini API key.');
+                ideaSetAlert('error', 'Please enter your Gemini API key.');
                 return;
             }
+
+            ideaSetAlert('', '');
 
             loadingIndicator.classList.remove('hidden');
             errorMessage.classList.add('hidden');
@@ -474,6 +500,7 @@
                     const text = result.candidates[0].content.parts[0].text;
                     ideaOutput.textContent = text;
                     ideaOutputContainer.classList.remove('hidden');
+                    ideaSetAlert('success', 'Blueprint generated.');
                 } else {
                    throw new Error("Invalid response structure from API.");
                 }
@@ -481,6 +508,7 @@
             } catch (error) {
                 console.error("Error generating idea:", error);
                 errorMessage.classList.remove('hidden');
+                ideaSetAlert('error', `Error generating idea: ${error.message}`);
             } finally {
                 loadingIndicator.classList.add('hidden');
                 generateBtn.disabled = false;
